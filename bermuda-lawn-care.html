@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bermuda Lawn Care - Huntsville, AL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .season-info {
+            background: #e8f5e9;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .season-info strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #27ae60;
+        }
+
+        .task-group {
+            margin-bottom: 25px;
+        }
+
+        .task-group h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .task-group h3::before {
+            content: '🌱';
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .task {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .task.completed {
+            background: #e8f5e9;
+            border-left-color: #2ecc71;
+            opacity: 0.7;
+        }
+
+        .task-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+            position: relative;
+            background: white;
+        }
+
+        .task.completed .checkbox {
+            background: #2ecc71;
+            border-color: #2ecc71;
+        }
+
+        .task.completed .checkbox::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 18px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .task.completed .task-title {
+            text-decoration: line-through;
+            color: #95a5a6;
+        }
+
+        .task-timing {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .task-details {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .fertilizer-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .fertilizer-box h4 {
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .fertilizer-box p {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            height: 8px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            height: 100%;
+            transition: width 0.3s;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 12px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .reset-btn:active {
+            transform: scale(0.98);
+        }
+
+        .month-label {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 Bermuda Lawn Care</h1>
+            <p>1519 Hammock St, Huntsville, AL</p>
+        </div>
+
+        <div class="content">
+            <div class="season-info">
+                <strong>Your Property:</strong>
+                Estimated lawn area: ~3,500 sq ft (typical Trailhead lot). Your Bermuda comes out of dormancy when soil temps reach 65°F (mid-April in Huntsville).
+            </div>
+
+            <div class="fertilizer-box">
+                <h4>📦 Your Current Plan: 13-13-13</h4>
+                <p><strong>Using your 40-lb bag (covers 6,500 sq ft):</strong></p>
+                <p>• Use ~21 lbs per application for your ~3,500 sq ft lawn</p>
+                <p>• You'll get 2 applications per bag (save the rest for next application)</p>
+                <p>• Plan for 4 applications total = 2 bags for the season</p>
+            </div>
+            
+            <div style="background: #e8f5e9; border: 2px solid #4caf50; border-radius: 10px; padding: 15px; margin-bottom: 20px;">
+                <h4 style="color: #2e7d32; margin-bottom: 8px;">✅ You Have LawnDoctor Service</h4>
+                <p style="color: #2e7d32; font-size: 14px; margin-bottom: 5px;">Pre-emergent is covered! Focus your fertilizer on nutrition:</p>
+                <p style="color: #2e7d32; font-size: 13px; margin-bottom: 3px;">• <strong>Your 13-13-13 works fine</strong> - simple and effective</p>
+                <p style="color: #2e7d32; font-size: 13px; margin-bottom: 3px;">• <strong>Upgrade option:</strong> High-nitrogen (29-0-4 or 32-0-10) for thicker, greener turf</p>
+                <p style="color: #2e7d32; font-size: 13px;">• <strong>Fall boost:</strong> Higher potassium fertilizer (15-0-15) helps winter hardiness</p>
+            </div>
+
+            <div class="progress-text">Season Progress</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <details style="background: #fff8e1; border: 2px solid #ff9800; border-radius: 10px; padding: 15px; margin-bottom: 20px; cursor: pointer;">
+                <summary style="font-weight: 600; color: #e65100; cursor: pointer; list-style: none; display: flex; align-items: center;">
+                    <span style="margin-right: 8px;">🛒</span> Shopping List for Your 3,500 sq ft Lawn
+                </summary>
+                <div style="margin-top: 10px; color: #5d4037; font-size: 14px;">
+                    <p style="margin-bottom: 8px;"><strong>✅ Already Covered by LawnDoctor:</strong></p>
+                    <ul style="margin-left: 20px; margin-bottom: 12px;">
+                        <li>Pre-emergent herbicide (crabgrass prevention)</li>
+                    </ul>
+                    
+                    <p style="margin-bottom: 8px;"><strong>Using Your 13-13-13 (Simple Plan):</strong></p>
+                    <ul style="margin-left: 20px; margin-bottom: 12px;">
+                        <li>2 bags of 40-lb 13-13-13 fertilizer (total season, ~$30-40)</li>
+                        <li>That's it! You're set.</li>
+                    </ul>
+                    
+                    <p style="margin-bottom: 8px;"><strong>Upgraded Plan (Better Results):</strong></p>
+                    <ul style="margin-left: 20px; margin-bottom: 12px;">
+                        <li>Spring/Summer: 2 bags high-nitrogen (29-0-4, 32-0-10, or Milorganite) - ~$40-60</li>
+                        <li>Fall: 1 bag winterizer (15-0-15 or similar high-K) - ~$20-25</li>
+                    </ul>
+                    
+                    <p style="margin-bottom: 8px;"><strong>Additional Products (Optional):</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>GrubEx or grub preventer (June) - ~$25-30</li>
+                        <li>Post-emergent weed killer (as needed) - ~$15-25</li>
+                        <li>Broadcast spreader (if needed) - $30-60 one-time</li>
+                    </ul>
+                    
+                    <p style="margin-top: 12px; font-size: 13px; opacity: 0.8;">💰 Annual cost: $30-40 with 13-13-13 | $85-140 with upgraded plan + extras</p>
+                    <p style="font-size: 13px; opacity: 0.8;">🏡 LawnDoctor already saves you ~$40/year on pre-emergent!</p>
+                </div>
+            </details>
+
+            <div class="task-group">
+                <h3>Early Spring (March - Early April)</h3>
+                
+                <div class="task" data-task="soil-test">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Get Soil Test (Optional but Recommended)</div>
+                            <div class="task-timing"><span class="month-label">MAR</span>Before fertilizing</div>
+                            <div class="task-details">$15-20 at Madison County Extension Office (11775 US-231 N). Tests pH and nutrients. Bermuda likes 6.0-7.0 pH. Results in 1-2 weeks.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="task" data-task="cleanup">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Spring Cleanup</div>
+                            <div class="task-timing"><span class="month-label">MAR</span>As soon as ground thaws</div>
+                            <div class="task-details">Rake up winter debris, dead grass, and leaves. This allows sunlight to reach the soil and warm it up faster.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="mower">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Prep Your Mower</div>
+                            <div class="task-timing"><span class="month-label">MAR</span>Before greenup</div>
+                            <div class="task-details">Sharpen blades, change oil, fresh gas. Set mowing height to 1-2 inches for Bermuda.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <h3>Greenup Phase (Mid-April - May)</h3>
+                
+                <div class="task" data-task="first-mow">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">First Mow of Season</div>
+                            <div class="task-timing"><span class="month-label">APR</span>When grass reaches 2-3 inches</div>
+                            <div class="task-details">Scalp to 1 inch to remove dead material and encourage lateral growth. Bag the clippings.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="lawndoctor">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">LawnDoctor Pre-Emergent ✅</div>
+                            <div class="task-timing"><span class="month-label">APR</span>Early-mid April</div>
+                            <div class="task-details">Your LawnDoctor service handles pre-emergent application. This prevents crabgrass and summer weeds. Coordinate your fertilizer schedule around their visit.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="fert1">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">First Fertilization 🌟</div>
+                            <div class="task-timing"><span class="month-label">MAY</span>Late April to early May (after greenup is 50%+)</div>
+                            <div class="task-details"><strong>Using 13-13-13:</strong> Apply 21 lbs for your 3,500 sq ft lawn. <strong>OPTIONAL UPGRADE:</strong> Use high-nitrogen like 29-0-4 or 32-0-10 for faster green-up and thicker growth. Water in within 24 hours.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <h3>Growing Season (June - September)</h3>
+                
+                <div class="task" data-task="fert2">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Second Fertilization 🌟</div>
+                            <div class="task-timing"><span class="month-label">JUN</span>Mid-June (6-8 weeks after first)</div>
+                            <div class="task-details"><strong>Using 13-13-13:</strong> Apply 21 lbs. <strong>BETTER:</strong> High-nitrogen fertilizer like 32-0-10 or Milorganite (slow-release organic). Bermuda is actively growing and needs nitrogen.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="fert3">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Third Fertilization 🌟</div>
+                            <div class="task-timing"><span class="month-label">AUG</span>Early August</div>
+                            <div class="task-details"><strong>Using 13-13-13:</strong> Apply 21 lbs. <strong>ALTERNATIVE:</strong> High-nitrogen option keeps lawn strong through peak summer heat. Water deeply after application.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="fert4">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Final Fertilization 🌟</div>
+                            <div class="task-timing"><span class="month-label">SEP</span>Mid-September</div>
+                            <div class="task-details"><strong>Using 13-13-13:</strong> Apply 21 lbs. <strong>BEST:</strong> Switch to higher potassium fertilizer (like 15-0-15) - builds root reserves for winter and helps early spring greenup.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="mowing">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Regular Mowing</div>
+                            <div class="task-timing"><span class="month-label">MAY-SEP</span>Weekly during active growth</div>
+                            <div class="task-details">Keep at 1-2 inches. Never remove more than 1/3 of blade height at once. Mow often!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="grub-control">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Apply Grub Preventer</div>
+                            <div class="task-timing"><span class="month-label">JUN</span>Late May to mid-June</div>
+                            <div class="task-details">Prevents white grubs that damage Bermuda roots. Apply GrubEx or similar (contains chlorantraniliprole). Water in immediately. One application protects all season.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="watering">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Deep Watering Routine</div>
+                            <div class="task-timing"><span class="month-label">JUN-SEP</span>During hot, dry periods</div>
+                            <div class="task-details">Huntsville avg: 4-5" rain in summer months. Supplement with 1-1.5" total per week. Water 2-3 times weekly (deep soaking), early morning 4-10am. Bermuda shows drought stress (blue-gray tint, footprints stay visible) before needing water.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="weeds">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Spot Treat Weeds</div>
+                            <div class="task-timing"><span class="month-label">MAY-SEP</span>As needed</div>
+                            <div class="task-details">Hand pull or use post-emergent herbicide for broadleaf weeds (2,4-D, dicamba, or Image for tougher weeds). Spray when temps below 85°F. Healthy, thick Bermuda crowds out most weeds naturally.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="aeration">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Core Aeration (If Needed)</div>
+                            <div class="task-timing"><span class="month-label">JUN</span>Late May to early June</div>
+                            <div class="task-details">Only needed if soil is compacted or heavy clay. Rent aerator or hire service (~$75-150 for 3,500 sq ft). Helps water/nutrients reach roots. Bermuda recovers quickly in active growth.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="overseed">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Overseed Bare Spots (Optional)</div>
+                            <div class="task-timing"><span class="month-label">JUN</span>June when soil is warm</div>
+                            <div class="task-details">For thin areas: Use Bermuda seed or sprigs. Soil temp needs to be 65°F+ consistently. Keep moist for 2-3 weeks. Bermuda also spreads naturally via runners.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <h3>Fall Preparation (October - November)</h3>
+                
+                <div class="task" data-task="fall-mow">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Final Mow & Cleanup</div>
+                            <div class="task-timing"><span class="month-label">OCT</span>Before first frost</div>
+                            <div class="task-details">Last mow when grass stops growing (mid-late Oct). Cut to 1.5" to reduce snow mold risk. Remove all debris and fallen leaves.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="winterizer">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Winterizer Application (Optional)</div>
+                            <div class="task-timing"><span class="month-label">NOV</span>Early November</div>
+                            <div class="task-details">Optional 5th feeding with high-potassium "winterizer" fertilizer. Helps roots store energy for spring. Not critical for Bermuda but beneficial in Huntsville's climate.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-group">
+                <h3>Pro Tips for Trailhead</h3>
+                
+                <div class="task" data-task="edging">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Edge Beds & Walkways</div>
+                            <div class="task-timing"><span class="month-label">APR-SEP</span>Monthly</div>
+                            <div class="task-details">Bermuda spreads aggressively. Edge monthly to keep out of flower beds and off sidewalks. Use string trimmer or dedicated edger.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task" data-task="neighborhood">
+                    <div class="task-header">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-title">Check HOA Requirements</div>
+                            <div class="task-timing"><span class="month-label">MAR</span>Before starting</div>
+                            <div class="task-details">Trailhead may have lawn height or appearance guidelines. Review HOA rules to stay compliant.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="reset-btn" onclick="resetAll()">Reset All Tasks</button>
+        </div>
+    </div>
+
+    <script>
+        // Load saved state
+        function loadState() {
+            const tasks = document.querySelectorAll('.task');
+            tasks.forEach(task => {
+                const taskId = task.getAttribute('data-task');
+                const completed = localStorage.getItem('task-' + taskId) === 'true';
+                if (completed) {
+                    task.classList.add('completed');
+                }
+            });
+            updateProgress();
+        }
+
+        // Save task state
+        function toggleTask(task) {
+            const taskId = task.getAttribute('data-task');
+            const isCompleted = task.classList.toggle('completed');
+            localStorage.setItem('task-' + taskId, isCompleted);
+            updateProgress();
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const tasks = document.querySelectorAll('.task');
+            const completed = document.querySelectorAll('.task.completed').length;
+            const total = tasks.length;
+            const percentage = (completed / total) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.querySelector('.progress-text').textContent = 
+                `Season Progress: ${completed} of ${total} tasks completed`;
+        }
+
+        // Reset all tasks
+        function resetAll() {
+            if (confirm('Reset all tasks? This will clear your progress.')) {
+                localStorage.clear();
+                document.querySelectorAll('.task').forEach(task => {
+                    task.classList.remove('completed');
+                });
+                updateProgress();
+            }
+        }
+
+        // Event listeners
+        document.querySelectorAll('.task').forEach(task => {
+            task.addEventListener('click', () => toggleTask(task));
+        });
+
+        // Initialize
+        loadState();
+    </script>
+</body>
+</html>
